@@ -10,15 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
+import pa1pal.anyreader.data.DataManager;
+import pa1pal.anyreader.data.News;
+import pa1pal.anyreader.data.remote.BaseApiManager;
 import pa1pal.anyreader.ui.base.ARBaseFragment;
-import pa1pal.anyreader.ui.util.ItemOffsetDecoration;
-import pa1pal.anyreader.ui.util.RecyclerItemClickListner;
+import pa1pal.anyreader.util.ItemOffsetDecoration;
+import pa1pal.anyreader.util.RecyclerItemClickListner;
 
-public class MainActivityFragment extends ARBaseFragment
-implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
+public class MainActivityFragment extends ARBaseFragment implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -28,8 +33,11 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
     MainAdapter mainAdapter;
     MainPresenter mainPresenter;
+    DataManager dataManager;
+    BaseApiManager baseApiManager;
     View rootView;
 
+    List<News> newsResults;
     public static final int GRID_LAYOUT_COUNT = 2;
 
     public static MainActivityFragment newInstance() {
@@ -42,8 +50,11 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainAdapter = new MainAdapter(getActivity());
-        mainPresenter = new MainPresenter();
+        newsResults = new ArrayList<>();
+        mainAdapter = new MainAdapter(getActivity(), newsResults);
+        baseApiManager = new BaseApiManager();
+        dataManager = new DataManager(baseApiManager);
+        mainPresenter = new MainPresenter(dataManager);
     }
 
     @Override
@@ -74,6 +85,16 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
         recyclerViewGrid.setAdapter(mainAdapter);
 
         mainPresenter.loadEvent();
+
+    }
+
+    @Override
+    public void showNews(List<News> news) {
+        newsResults = news;
+    }
+
+    @Override
+    public void showError(int errorMessage) {
 
     }
 

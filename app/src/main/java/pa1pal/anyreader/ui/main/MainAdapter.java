@@ -1,20 +1,21 @@
 package pa1pal.anyreader.ui.main;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.concurrent.TimeUnit;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
+import pa1pal.anyreader.data.News;
 
 /**
  * Created by aosp on 19/10/16.
@@ -22,10 +23,12 @@ import pa1pal.anyreader.R;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private Context context;
+    private Context mContext;
+    private List<News> newsResult;
 
-    public MainAdapter(Context context){
-        this.context = context;
+    public MainAdapter(Context context, @Nullable List<News> results){
+        this.mContext = context;
+        this.newsResult = results;
     }
 
     @Override
@@ -37,14 +40,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String uri = "@drawable/ic";  // where myresource (without the extension) is the file
-
-        holder.newsImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic));
+        Picasso.with(holder.itemView.getContext())
+                .load(""+newsResult.get(position).getPhoto())
+                .into(holder.newsImage);
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return newsResult.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

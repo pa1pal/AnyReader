@@ -1,5 +1,8 @@
 package pa1pal.anyreader.ui.main;
 
+import java.util.List;
+
+import pa1pal.anyreader.data.News;
 import pa1pal.anyreader.ui.base.MvpView;
 
 /**
@@ -10,6 +13,10 @@ public class MainContract {
     interface View extends MvpView {
 
         void setUpRecyclerView();
+
+        void showNews(List<News> news);
+
+        void showError(int errorMessage);
 
         void showProgressbar(boolean show);
     }
