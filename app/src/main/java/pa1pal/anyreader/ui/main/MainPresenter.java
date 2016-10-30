@@ -1,27 +1,36 @@
 package pa1pal.anyreader.ui.main;
 
-import pa1pal.anyreader.ui.base.BasePresenter;
+import rx.Subscription;
 
 /**
  * Created by aosp on 19/10/16.
  */
 
-public class MainPresenter extends BasePresenter<MainContract.View>
-    implements MainContract.Presenter{
+public class MainPresenter implements MainContract.Presenter {
 
-    @Override
-    public void attachView(MainContract.View mvpView) {
-        super.attachView(mvpView);
+    private static final String TAG = MainPresenter.class.getSimpleName();
+    private Subscription subscription;
+    private MainContract.View view;
+
+    public MainPresenter(MainContract.View view){
+        this.view = view;
+        view.setPresenter(this);
     }
 
     @Override
-    public void detachView() {
-        super.detachView();
+    public void loadPost() {
+
     }
 
     @Override
-    public void loadEvent() {
+    public void subscribe() {
+        loadPost();
+    }
 
-
+    @Override
+    public void unsubscribe() {
+        if (subscription != null && subscription.isUnsubscribed()){
+            subscription.unsubscribe();
+        }
     }
 }

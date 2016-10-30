@@ -1,6 +1,7 @@
 package pa1pal.anyreader.ui.main;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,11 +14,10 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
-import pa1pal.anyreader.ui.base.ARBaseFragment;
 import pa1pal.anyreader.ui.util.ItemOffsetDecoration;
 import pa1pal.anyreader.ui.util.RecyclerItemClickListner;
 
-public class MainActivityFragment extends ARBaseFragment
+public class MainActivityFragment extends Fragment
 implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
     @BindView(R.id.swipe_refresh)
@@ -43,7 +43,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainAdapter = new MainAdapter(getActivity());
-        mainPresenter = new MainPresenter();
+        mainPresenter = new MainPresenter(this);
     }
 
     @Override
@@ -52,7 +52,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
-        mainPresenter.attachView(this);
+        mainPresenter.subscribe();
         setUpRecyclerView();
         return rootView;
     }
@@ -73,13 +73,8 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
         recyclerViewGrid.setAdapter(mainAdapter);
 
-        mainPresenter.loadEvent();
+        //mainPresenter.loadPost();
 
-    }
-
-    @Override
-    public void showProgressbar(boolean show) {
-        swipeRefreshLayout.setRefreshing(show);
     }
 
     @Override
@@ -95,6 +90,11 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mainPresenter.detachView();
+        mainPresenter.unsubscribe();
+    }
+
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+
     }
 }
