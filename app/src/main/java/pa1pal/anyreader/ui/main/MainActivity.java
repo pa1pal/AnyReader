@@ -7,8 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
 
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.model.News;
@@ -55,10 +54,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickCallback
     }
 
     @Override
-    public void onItemSelected(List<News> news, int position) {
+    public void onItemSelected(News news) {
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putParcelableArrayListExtra("list", (ArrayList<News>) news);
-        intent.putExtra("position", position);
+        intent.putExtra("list", (new Gson()).toJson(news));
         startActivity(intent);
     }
 }

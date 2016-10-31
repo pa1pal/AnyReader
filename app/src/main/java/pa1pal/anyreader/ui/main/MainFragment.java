@@ -127,7 +127,7 @@ public class MainFragment extends Fragment
 
     @Override
     public void onItemClick(View childView, int position) {
-        ((ItemClickCallback) getActivity()).onItemSelected(list, position);
+        ((ItemClickCallback) getActivity()).onItemSelected(list.get(position));
 //        Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
 //        detailsIntent.putExtra("position", position);
 //        detailsIntent.putExtra("list", (new Gson()).toJson(list));

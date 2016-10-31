@@ -26,7 +26,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="Movie Title"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"/>
 
@@ -35,7 +34,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="Plot"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"/>
 
@@ -44,7 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="User Rating"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"/>
 
@@ -54,7 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="Release Date"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"/>
 

@@ -6,10 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.model.News;
 
@@ -34,41 +35,29 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
     @BindView(R.id.newsdetails)
     TextView newsDetails;
 
-    private List<News> list;
+    private News news;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        int position = 0;
-        list = new ArrayList<>();
+        ButterKnife.bind(this);
         final Intent intent = this.getIntent();
-        //Intent detailsIntent = new Intent(this, DetailsActivity.class);
-        //Bundle bundle = getIntent().getExtras();
-        //position = intent.getExtras.("position");
-        //list = getIntent().getExtras().getParcelableArrayList("list");
-        if (intent!= null) {
-            position = intent.getIntExtra("position", 0);
-            list = intent.getParcelableArrayListExtra("list");
-        }
-        //list = (List<News>) getIntent().getSerializableExtra("list");
-
-        //assert list != null;
-        newsDetails.setText(list.get(position).getBody());
+        news = (new Gson()).fromJson(intent.getStringExtra("list"), News.class);
+        setUpDetails(news);
     }
 
     @Override
-    public void showError(String message) {
+    public void setUpDetails(News news) {
 
+        Picasso.with(this)
+                .load(news.getThumb())
+                .into(flagImage);
+
+        newsTitle.setText(news.getTitle());
+        newsTime.setText(news.getPublishedDate());
+        newsAuthor.setText(getString(R.string.by)+news.getAuthor());
+        newsDetails.setText(news.getBody());
     }
 
-    @Override
-    public void setUpDetails(List<News> list) {
-
-    }
-
-    @Override
-    public void setPresenter(DetailsContract.Presenter presenter) {
-
-    }
 }
