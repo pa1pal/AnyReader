@@ -1,7 +1,6 @@
 package pa1pal.anyreader.ui.main;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import pa1pal.anyreader.R;
 import pa1pal.anyreader.model.News;
 
 /**
- * Created by aosp on 19/10/16.
+ * Created by pa1pal on 19/10/16.
  */
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
@@ -26,9 +25,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private Context context;
     private List<News> list;
 
-    public MainAdapter(Context context, @Nullable List<News> news){
+    public MainAdapter(Context context, List<News> news){
         this.context = context;
-        this.list = list;
+        this.list = news;
     }
 
     @Override
@@ -46,12 +45,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         Picasso.with(holder.itemView.getContext())
                 .load("" + list.get(position).getPhoto())
                 .into(holder.newsImage);
-
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

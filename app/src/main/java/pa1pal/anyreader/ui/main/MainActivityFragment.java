@@ -40,7 +40,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     MainAdapter mainAdapter;
     MainContract.Presenter mainPresenter;
     View rootView;
-    private List<News> list;
+    List<News> list;
 
     public static final int GRID_LAYOUT_COUNT = 2;
 
