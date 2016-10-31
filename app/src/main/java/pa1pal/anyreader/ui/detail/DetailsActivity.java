@@ -1,7 +1,6 @@
 package pa1pal.anyreader.ui.detail;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,11 +39,16 @@ public class DetailsActivity extends Activity implements DetailsContract.View{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Intent detailsIntent = new Intent(this, DetailsActivity.class);
-        int position = detailsIntent.getIntExtra("position", 0);
+        int position = 0;
         list = new ArrayList<>();
-        list = (List<News>) getIntent().getSerializableExtra("list");
+        //Intent detailsIntent = new Intent(this, DetailsActivity.class);
+        Bundle bundle = getIntent().getExtras();
+        position = bundle.getInt("position", 0);
+        //list = getIntent().getExtras().getParcelableArrayList("list");
+        list = bundle.getParcelableArrayList("list");
+        //list = (List<News>) getIntent().getSerializableExtra("list");
 
+        //assert list != null;
         newsDetails.setText(list.get(position).getBody());
     }
 

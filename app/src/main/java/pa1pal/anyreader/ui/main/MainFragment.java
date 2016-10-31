@@ -2,6 +2,7 @@ package pa1pal.anyreader.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +20,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pa1pal.anyreader.App;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.model.News;
-import pa1pal.anyreader.App;
 import pa1pal.anyreader.ui.detail.DetailsActivity;
 import pa1pal.anyreader.util.RecyclerItemClickListner;
 
@@ -130,8 +130,14 @@ public class MainFragment extends Fragment
     public void onItemClick(View childView, int position) {
         Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
         Bundle bundle = new Bundle();
-        detailsIntent.putExtra("position", position);
-        detailsIntent.putExtra("list", (Serializable) list);
+        //bundle.putParcelableArrayList();
+        bundle.putInt("position", position);
+        bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+        //detailsIntent.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) list);
+        //detailsIntent.putExtra("position", position);
+        //detailsIntent.putExtra("list", (Serializable) list);
+        detailsIntent.putExtras(bundle);
+        //detailsIntent.putExtras("bundle", bundle);
         startActivity(detailsIntent);
     }
 
