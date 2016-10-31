@@ -20,7 +20,8 @@ public class DataManager {
     Retrofit retrofit;
 
     @Inject
-    public DataManager(){
+    public DataManager(Retrofit retrofit){
+        this.retrofit = retrofit;
         App.getAppComponent().inject(this);
     }
 

@@ -8,7 +8,10 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +26,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private List<News> list;
 
-    public MainAdapter(List<News> news){
-        this.list = news;
+    @Inject
+    public MainAdapter(){
+        list = new ArrayList<>();
     }
 
     @Override
@@ -38,10 +42,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         //String uri = "@drawable/ic";  // where myresource (without the extension) is the file
 
-      //  holder.newsImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic));
+        //  holder.newsImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic));
         Picasso.with(holder.itemView.getContext())
                 .load(list.get(position).getThumb())
                 .into(holder.newsImage);
+    }
+
+    public void setNews(List<News> news) {
+        list = news;
+        notifyDataSetChanged();
     }
 
     @Override

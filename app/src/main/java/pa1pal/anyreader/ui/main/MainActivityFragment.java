@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +22,10 @@ import pa1pal.anyreader.R;
 import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.model.News;
 import pa1pal.anyreader.util.App;
-import pa1pal.anyreader.util.ItemOffsetDecoration;
 import pa1pal.anyreader.util.RecyclerItemClickListner;
 
 public class MainActivityFragment extends Fragment
-implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
+        implements RecyclerItemClickListner.OnItemClickListener, MainContract.View, SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -58,7 +56,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
         list= new ArrayList<>();
-        mainAdapter = new MainAdapter(list);
+        mainAdapter = new MainAdapter();
         mainPresenter = new MainPresenter(dataManager, this);
 
     }
@@ -78,16 +76,17 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     @Override
     public void setUpRecyclerView() {
 
-        final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(),
-                GRID_LAYOUT_COUNT);
+        //final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(),
+          //      GRID_LAYOUT_COUNT);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(GRID_LAYOUT_COUNT, StaggeredGridLayoutManager.VERTICAL);
         recyclerViewGrid.setLayoutManager(layoutManager);
         recyclerViewGrid.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
         recyclerViewGrid.setItemAnimator(new DefaultItemAnimator());
 
         //Setting the Equal column spacing
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(),
-                R.dimen.item_offset);
-        recyclerViewGrid.addItemDecoration(itemDecoration);
+//        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(),
+//                R.dimen.item_offset);
+//        recyclerViewGrid.addItemDecoration(itemDecoration);
 
         recyclerViewGrid.setAdapter(mainAdapter);
 
@@ -120,7 +119,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
     @Override
     public void setUpAdapter(List<News> list) {
-        mainAdapter = new MainAdapter(list);
+        mainAdapter.setNews(list);
     }
 
     @Override
@@ -142,5 +141,10 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         mainPresenter = presenter;
+    }
+
+    @Override
+    public void onRefresh() {
+        mainPresenter.loadPost();
     }
 }
