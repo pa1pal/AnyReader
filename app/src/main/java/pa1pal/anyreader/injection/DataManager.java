@@ -5,9 +5,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import pa1pal.anyreader.model.News;
+import pa1pal.anyreader.model.NewsService;
 import pa1pal.anyreader.util.App;
 import retrofit2.Retrofit;
-import retrofit2.http.GET;
 import rx.Observable;
 
 /**
@@ -25,12 +25,7 @@ public class DataManager {
     }
 
     public Observable<List<News>> getNews() {
-        return retrofit.create(NewsS.class).getPostList();
-    }
-
-    private interface NewsS{
-        @GET("u/231329/xyzreader_data/data.json")
-        Observable<List<News>> getPostList();
+        return retrofit.create(NewsService.class).getPost();
     }
 }
 

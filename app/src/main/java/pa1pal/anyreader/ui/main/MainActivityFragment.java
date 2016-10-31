@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
     MainAdapter mainAdapter;
     MainContract.Presenter mainPresenter;
+
     View rootView;
     List<News> list;
 
@@ -56,7 +58,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
         list= new ArrayList<>();
-        mainAdapter = new MainAdapter(getActivity(), list);
+        mainAdapter = new MainAdapter(list);
         mainPresenter = new MainPresenter(dataManager, this);
 
     }
@@ -69,6 +71,7 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
         ButterKnife.bind(this, rootView);
         mainPresenter.subscribe();
         setUpRecyclerView();
+        mainPresenter.loadPost();
         return rootView;
     }
 
@@ -88,8 +91,36 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
         recyclerViewGrid.setAdapter(mainAdapter);
 
-        //mainPresenter.loadPost();
+    }
 
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getContext(), "Error loading post", Toast.LENGTH_SHORT).show();
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+    }
+
+    @Override
+    public void showComplete() {
+        Toast.makeText(getContext(), "Completed loading", Toast.LENGTH_SHORT).show();
+
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+    }
+
+    @Override
+    public void setUpAdapter(List<News> list) {
+        mainAdapter = new MainAdapter(list);
     }
 
     @Override

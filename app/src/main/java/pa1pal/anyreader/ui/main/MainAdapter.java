@@ -1,6 +1,5 @@
 package pa1pal.anyreader.ui.main;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +21,9 @@ import pa1pal.anyreader.model.News;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private Context context;
     private List<News> list;
 
-    public MainAdapter(Context context, List<News> news){
-        this.context = context;
+    public MainAdapter(List<News> news){
         this.list = news;
     }
 
@@ -41,9 +38,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         //String uri = "@drawable/ic";  // where myresource (without the extension) is the file
 
-        //holder.newsImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic));
+      //  holder.newsImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic));
         Picasso.with(holder.itemView.getContext())
-                .load("" + list.get(position).getPhoto())
+                .load(list.get(position).getThumb())
                 .into(holder.newsImage);
     }
 

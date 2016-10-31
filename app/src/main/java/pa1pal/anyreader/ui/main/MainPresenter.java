@@ -1,10 +1,12 @@
 package pa1pal.anyreader.ui.main;
 
+import android.content.Context;
+
 import java.util.List;
 
 import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.model.News;
-import rx.Subscriber;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -19,6 +21,8 @@ public class MainPresenter implements MainContract.Presenter {
     private Subscription subscription;
     private MainContract.View view;
     private DataManager dataManager;
+    private MainAdapter mainAdapter;
+    private Context context;
 
     public MainPresenter(DataManager dataManager, MainContract.View view){
         this.dataManager = dataManager;
@@ -31,20 +35,20 @@ public class MainPresenter implements MainContract.Presenter {
         subscription = dataManager.getNews()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<News>>() {
+                .subscribe(new Observer<List<News>>() {
                     @Override
                     public void onCompleted() {
-
+                       view.showComplete();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError(e.toString());
                     }
 
                     @Override
                     public void onNext(List<News> events) {
-
+                        view.setUpAdapter(events);
                     }
                 });
 

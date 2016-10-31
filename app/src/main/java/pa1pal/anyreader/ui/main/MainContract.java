@@ -1,5 +1,8 @@
 package pa1pal.anyreader.ui.main;
 
+import java.util.List;
+
+import pa1pal.anyreader.model.News;
 import pa1pal.anyreader.ui.base.BasePresenter;
 import pa1pal.anyreader.ui.base.BaseView;
 
@@ -12,9 +15,11 @@ public class MainContract {
 
         void setUpRecyclerView();
 
+        void showError(String message);
         //void showPosts(List<Post> posts);
+        void showComplete();
 
-
+        void setUpAdapter(List<News> list);
         //void showProgressbar(boolean show);
     }
 
