@@ -2,6 +2,7 @@ package pa1pal.anyreader.ui.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.model.News;
 
@@ -45,6 +47,14 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
         final Intent intent = this.getIntent();
         news = (new Gson()).fromJson(intent.getStringExtra("list"), News.class);
         setUpDetails(news);
+    }
+
+    @OnClick(R.id.share)
+    public void Share() {
+        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setText("Some sample text")
+                .getIntent(), getString(R.string.action_share)));
     }
 
     @Override

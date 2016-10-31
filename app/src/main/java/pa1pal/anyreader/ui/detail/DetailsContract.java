@@ -9,7 +9,6 @@ import pa1pal.anyreader.model.News;
 public class DetailsContract {
 
     interface View {
-
         void setUpDetails(News news);
     }
 
