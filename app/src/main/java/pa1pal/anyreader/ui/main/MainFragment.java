@@ -69,6 +69,7 @@ public class MainFragment extends Fragment
 
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
+        swipeRefreshLayout.setOnRefreshListener(this);
         mainPresenter.subscribe();
         setUpRecyclerView();
         mainPresenter.loadPost();
