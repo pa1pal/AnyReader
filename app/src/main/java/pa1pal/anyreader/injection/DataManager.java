@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import pa1pal.anyreader.model.News;
 import pa1pal.anyreader.model.NewsService;
-import pa1pal.anyreader.util.App;
+import pa1pal.anyreader.App;
 import retrofit2.Retrofit;
 import rx.Observable;
 

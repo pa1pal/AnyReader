@@ -5,9 +5,12 @@ package pa1pal.anyreader.model;
  * Date: 10/22/16
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class News {
+public class News implements Parcelable {
 
     @SerializedName("id")
     private String id;
@@ -25,6 +28,28 @@ public class News {
     private String publishedDate;
     @SerializedName("body")
     private String body;
+
+    protected News(Parcel in) {
+        id = in.readString();
+        photo = in.readString();
+        thumb = in.readString();
+        author = in.readString();
+        title = in.readString();
+        publishedDate = in.readString();
+        body = in.readString();
+    }
+
+//    public static final Creator<News> CREATOR = new Creator<News>() {
+//        @Override
+//        public News createFromParcel(Parcel in) {
+//            return new News(in);
+//        }
+//
+//        @Override
+//        public News[] newArray(int size) {
+//            return new News[size];
+//        }
+//    };
 
     /**
      *
@@ -169,5 +194,34 @@ public class News {
     public void setBody(String body) {
         this.body = body;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(photo);
+        parcel.writeString(thumb);
+        parcel.writeDouble(aspectRatio);
+        parcel.writeString(author);
+        parcel.writeString(title);
+        parcel.writeString(publishedDate);
+        parcel.writeString(body);
+    }
+
+    public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>()
+    {
+        public News createFromParcel(Parcel in)
+        {
+            return new News(in);
+        }
+        public News[] newArray(int size)
+        {
+            return new News[size];
+        }
+    };
 
 }

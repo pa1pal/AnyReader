@@ -1,5 +1,6 @@
 package pa1pal.anyreader.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +23,11 @@ import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.model.News;
-import pa1pal.anyreader.util.App;
+import pa1pal.anyreader.App;
+import pa1pal.anyreader.ui.detail.DetailsActivity;
 import pa1pal.anyreader.util.RecyclerItemClickListner;
 
-public class MainActivityFragment extends Fragment
+public class MainFragment extends Fragment
         implements RecyclerItemClickListner.OnItemClickListener, MainContract.View, SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.swipe_refresh)
@@ -44,9 +47,9 @@ public class MainActivityFragment extends Fragment
 
     public static final int GRID_LAYOUT_COUNT = 2;
 
-    public static MainActivityFragment newInstance() {
+    public static MainFragment newInstance() {
         Bundle arguments = new Bundle();
-        MainActivityFragment fragment = new MainActivityFragment();
+        MainFragment fragment = new MainFragment();
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -120,11 +123,16 @@ public class MainActivityFragment extends Fragment
     @Override
     public void setUpAdapter(List<News> list) {
         mainAdapter.setNews(list);
+        this.list = list;
     }
 
     @Override
     public void onItemClick(View childView, int position) {
-
+        Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
+        Bundle bundle = new Bundle();
+        detailsIntent.putExtra("position", position);
+        detailsIntent.putExtra("list", (Serializable) list);
+        startActivity(detailsIntent);
     }
 
     @Override

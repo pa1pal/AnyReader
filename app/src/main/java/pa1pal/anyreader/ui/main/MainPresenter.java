@@ -12,7 +12,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by aosp on 19/10/16.
+ * Created by pa1pal on 19/10/16.
  */
 
 public class MainPresenter implements MainContract.Presenter {

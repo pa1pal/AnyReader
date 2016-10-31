@@ -1,4 +1,4 @@
-package pa1pal.anyreader.util;
+package pa1pal.anyreader;
 
 import android.app.Application;
 

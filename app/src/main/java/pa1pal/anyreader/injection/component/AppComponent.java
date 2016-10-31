@@ -7,7 +7,7 @@ import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.injection.module.AppModule;
 import pa1pal.anyreader.injection.module.DataModule;
 import pa1pal.anyreader.ui.main.MainActivity;
-import pa1pal.anyreader.ui.main.MainActivityFragment;
+import pa1pal.anyreader.ui.main.MainFragment;
 
 /**
  * User: pa1pal
@@ -18,6 +18,6 @@ import pa1pal.anyreader.ui.main.MainActivityFragment;
 @Component(modules = {AppModule.class, DataModule.class})
 public interface AppComponent {
     void inject(MainActivity activity);
-    void inject(MainActivityFragment activityFragment);
+    void inject(MainFragment activityFragment);
     void inject(DataManager dataManager);
 }
