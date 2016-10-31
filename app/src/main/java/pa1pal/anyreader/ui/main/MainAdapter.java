@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -40,9 +41,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //String uri = "@drawable/ic";  // where myresource (without the extension) is the file
-
-        //  holder.newsImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic));
+        holder.title.setText(list.get(position).getTitle());
+        holder.author.setText("by "+ list.get(position).getAuthor());
         Picasso.with(holder.itemView.getContext())
                 .load(list.get(position).getThumb())
                 .into(holder.newsImage);
@@ -61,6 +61,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.newsImage)
         ImageView newsImage;
+
+        @BindView(R.id.title)
+        TextView title;
+
+        @BindView(R.id.author)
+        TextView author;
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
