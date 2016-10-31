@@ -1,4 +1,4 @@
-package pa1pal.anyreader.ui.util;
+package pa1pal.anyreader.util;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

@@ -11,11 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
-import pa1pal.anyreader.ui.util.ItemOffsetDecoration;
-import pa1pal.anyreader.ui.util.RecyclerItemClickListner;
+import pa1pal.anyreader.injection.DataManager;
+import pa1pal.anyreader.model.News;
+import pa1pal.anyreader.util.App;
+import pa1pal.anyreader.util.ItemOffsetDecoration;
+import pa1pal.anyreader.util.RecyclerItemClickListner;
 
 public class MainActivityFragment extends Fragment
 implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
@@ -26,9 +34,13 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     @BindView(R.id.rvNews)
     RecyclerView recyclerViewGrid;
 
+    @Inject
+    DataManager dataManager;
+
     MainAdapter mainAdapter;
-    MainPresenter mainPresenter;
+    MainContract.Presenter mainPresenter;
     View rootView;
+    private List<News> list;
 
     public static final int GRID_LAYOUT_COUNT = 2;
 
@@ -42,8 +54,11 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainAdapter = new MainAdapter(getActivity());
-        mainPresenter = new MainPresenter(this);
+        App.getAppComponent().inject(this);
+        list= new ArrayList<>();
+        mainAdapter = new MainAdapter(getActivity(), list);
+        mainPresenter = new MainPresenter(dataManager, this);
+
     }
 
     @Override
@@ -95,6 +110,6 @@ implements RecyclerItemClickListner.OnItemClickListener, MainContract.View{
 
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
-
+        mainPresenter = presenter;
     }
 }
