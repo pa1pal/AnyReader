@@ -1,14 +1,21 @@
 package pa1pal.anyreader.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import pa1pal.anyreader.R;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import pa1pal.anyreader.R;
+import pa1pal.anyreader.model.News;
+import pa1pal.anyreader.ui.detail.DetailsActivity;
+import pa1pal.anyreader.ui.interfaces.ItemClickCallback;
+
+public class MainActivity extends AppCompatActivity implements ItemClickCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +52,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(List<News> news, int position) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putParcelableArrayListExtra("list", (ArrayList<News>) news);
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 }

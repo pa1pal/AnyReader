@@ -1,7 +1,8 @@
 package pa1pal.anyreader.ui.detail;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import pa1pal.anyreader.model.News;
  * User: pa1pal
  * Date: 10/31/16
  */
-public class DetailsActivity extends Activity implements DetailsContract.View{
+public class DetailsActivity extends AppCompatActivity implements DetailsContract.View{
 
     @BindView(R.id.flagimage)
     ImageView flagImage;
@@ -41,11 +42,15 @@ public class DetailsActivity extends Activity implements DetailsContract.View{
         setContentView(R.layout.activity_details);
         int position = 0;
         list = new ArrayList<>();
+        final Intent intent = this.getIntent();
         //Intent detailsIntent = new Intent(this, DetailsActivity.class);
-        Bundle bundle = getIntent().getExtras();
-        position = bundle.getInt("position", 0);
+        //Bundle bundle = getIntent().getExtras();
+        //position = intent.getExtras.("position");
         //list = getIntent().getExtras().getParcelableArrayList("list");
-        list = bundle.getParcelableArrayList("list");
+        if (intent!= null) {
+            position = intent.getIntExtra("position", 0);
+            list = intent.getParcelableArrayListExtra("list");
+        }
         //list = (List<News>) getIntent().getSerializableExtra("list");
 
         //assert list != null;

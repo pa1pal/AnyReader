@@ -1,8 +1,6 @@
 package pa1pal.anyreader.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,7 +22,7 @@ import pa1pal.anyreader.App;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.model.News;
-import pa1pal.anyreader.ui.detail.DetailsActivity;
+import pa1pal.anyreader.ui.interfaces.ItemClickCallback;
 import pa1pal.anyreader.util.RecyclerItemClickListner;
 
 public class MainFragment extends Fragment
@@ -39,6 +37,7 @@ public class MainFragment extends Fragment
     @Inject
     DataManager dataManager;
 
+    private News news;
     MainAdapter mainAdapter;
     MainContract.Presenter mainPresenter;
 
@@ -128,17 +127,20 @@ public class MainFragment extends Fragment
 
     @Override
     public void onItemClick(View childView, int position) {
-        Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
-        Bundle bundle = new Bundle();
+        ((ItemClickCallback) getActivity()).onItemSelected(list, position);
+//        Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
+//        detailsIntent.putExtra("position", position);
+//        detailsIntent.putExtra("list", (new Gson()).toJson(list));
+        //Bundle bundle = new Bundle();
         //bundle.putParcelableArrayList();
-        bundle.putInt("position", position);
-        bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+        //bundle.putInt("position", position);
+        //bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
         //detailsIntent.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) list);
         //detailsIntent.putExtra("position", position);
         //detailsIntent.putExtra("list", (Serializable) list);
-        detailsIntent.putExtras(bundle);
+        //detailsIntent.putExtras(bundle);
         //detailsIntent.putExtras("bundle", bundle);
-        startActivity(detailsIntent);
+        //startActivity(detailsIntent);
     }
 
     @Override
