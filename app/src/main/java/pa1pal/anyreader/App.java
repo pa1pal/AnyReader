@@ -14,15 +14,22 @@ import pa1pal.anyreader.injection.module.DataModule;
 public class App extends Application{
     private static AppComponent mAppComponent;
 
+    private static App mInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mInstance = this;
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .dataModule(new DataModule("https://gist.githubusercontent.com/"))
                 .build();
     }
+
+    public static synchronized App getInstance() {
+        return mInstance;
+    }
+
 
     public static AppComponent getAppComponent() {
         return mAppComponent;

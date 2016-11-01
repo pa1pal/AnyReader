@@ -7,14 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.model.News;
+import pa1pal.anyreader.util.ImageLoaderHelper;
 
 /**
  * User: pa1pal
@@ -37,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
     @BindView(R.id.newsdetails)
     TextView newsDetails;
 
+    ImageLoader imageLoader;
     private News news;
 
     @Override
@@ -44,6 +46,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
+
+        imageLoader = ImageLoaderHelper.getInstance(this).getImageLoader();
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_share_white_24dp);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -63,11 +67,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
 
     @Override
     public void setUpDetails(News news) {
-
-        Picasso.with(this)
-                .load(news.getThumb())
-                .into(flagImage);
-
+        imageLoader.get(news.getThumb(), ImageLoader.getImageListener(flagImage, R.mipmap.ic_launcher, R.mipmap.ic_error_outline_black_24dp));
         newsTitle.setText(news.getTitle());
         newsTime.setText(news.getPublishedDate());
         newsAuthor.setText(getString(R.string.by)+news.getAuthor());

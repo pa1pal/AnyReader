@@ -4,10 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.anyreader.R;
 import pa1pal.anyreader.model.News;
+import pa1pal.anyreader.util.DynamicHeightNetworkImageView;
+import pa1pal.anyreader.util.ImageLoaderHelper;
 
 /**
  * Created by pa1pal on 19/10/16.
@@ -26,6 +27,7 @@ import pa1pal.anyreader.model.News;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private List<News> list;
+    ImageLoader imageLoader;
 
     @Inject
     public MainAdapter(){
@@ -42,10 +44,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(list.get(position).getTitle());
-        holder.author.setText("by "+ list.get(position).getAuthor());
-        Picasso.with(holder.itemView.getContext())
-                .load(list.get(position).getThumb())
-                .into(holder.newsImage);
+        holder.author.setText("by "+list.get(position).getAuthor());
+
+        imageLoader = ImageLoaderHelper.getInstance(holder.itemView.getContext()).getImageLoader();
+        holder.newsImage.setImageUrl(list.get(position).getThumb(), imageLoader);
+        holder.newsImage.setAspectRatio(list.get(position).getAspectRatio());
+
     }
 
     public void setNews(List<News> news) {
@@ -60,7 +64,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.newsImage)
-        ImageView newsImage;
+        DynamicHeightNetworkImageView newsImage;
 
         @BindView(R.id.title)
         TextView title;
