@@ -44,6 +44,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
+        //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_share_white_24dp);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final Intent intent = this.getIntent();
         news = (new Gson()).fromJson(intent.getStringExtra("list"), News.class);
         setUpDetails(news);

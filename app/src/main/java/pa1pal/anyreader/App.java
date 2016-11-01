@@ -20,7 +20,7 @@ public class App extends Application{
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .dataModule(new DataModule("https://dl.dropboxusercontent.com/"))
+                .dataModule(new DataModule("https://gist.githubusercontent.com/"))
                 .build();
     }
 
