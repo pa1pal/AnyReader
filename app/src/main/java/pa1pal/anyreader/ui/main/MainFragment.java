@@ -23,6 +23,7 @@ import pa1pal.anyreader.R;
 import pa1pal.anyreader.injection.DataManager;
 import pa1pal.anyreader.model.News;
 import pa1pal.anyreader.ui.interfaces.ItemClickCallback;
+import pa1pal.anyreader.util.ItemOffsetDecoration;
 import pa1pal.anyreader.util.RecyclerItemClickListner;
 
 public class MainFragment extends Fragment
@@ -85,7 +86,9 @@ public class MainFragment extends Fragment
         recyclerViewGrid.setLayoutManager(layoutManager);
         recyclerViewGrid.addOnItemTouchListener(new RecyclerItemClickListner(getActivity(), this));
         recyclerViewGrid.setItemAnimator(new DefaultItemAnimator());
-
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(),
+                R.dimen.item_offset);
+        recyclerViewGrid.addItemDecoration(itemDecoration);
         //Setting the Equal column spacing
 //        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(),
 //                R.dimen.item_offset);
